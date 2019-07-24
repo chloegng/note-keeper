@@ -82,4 +82,19 @@ router.put('/:id', [
   }
 }); 
 
+// @route     DELETE api/notes/:id
+// @desc      Delete a note
+// @access    Public
+router.delete('/:id', async (req, res) => {
+  try {
+    let note = await Note.findById(req.params.id);
+    if (!note) return res.status(404).json({ msg: 'Note was not found' });
+    await Note.findByIdAndRemove(req.params.id);
+    res.json({ msg: 'Note deleted' });
+  } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router; 
