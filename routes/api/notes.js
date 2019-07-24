@@ -45,4 +45,41 @@ router.post('/', [
   }
 });
 
+
+// @route     PUT api/notes/:id
+// @desc      Update a note 
+// @access    Public
+router.put('/:id', [
+  check('title', 'Title is required')
+    .not()
+    .isEmpty(),
+  check('body', 'Body is required')
+    .not()
+    .isEmpty()
+], async (req, res) => {
+  const errors = validationResult(req);
+  if(!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  const { title, body } = req.body;
+  // Build note object
+  const noteFields = {};
+  if (title) noteFields.title = title;
+  if (body) noteFields.body = body;
+  noteFields.dateUpdated = Date.now();
+  try {
+    let note = await Note.findById(req.params.id);
+    if (!note) return res.status(404).json({ msg: 'Note not found' });
+    note = await Note.findByIdAndUpdate(
+      req.params.id,
+      { $set: noteFields },
+      { new: true }
+    );
+    res.json(note);
+  } catch (err) {
+    console.error(er.message);
+    res.status(500).send('Server Error');
+  }
+}); 
+
 module.exports = router; 
