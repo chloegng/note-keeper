@@ -1,14 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
+const auth = require('../../middleware/auth');
 const Note = require('../../models/Notes');
 
 // @route     Get api/notes
-// @desc      Get notes route
-// @access    Public
-router.get('/', async (req, res) => {
+// @desc      Get notes for logged in user
+// @access    Private
+router.get('/', auth, async (req, res) => {
   try {
-    const notes = await Note.find();
+    // get notes of that user
+    const notes = await Note.find({ user: req.user.id }).sort({
+      dateUpdated: -1
+    });
     res.json(notes);
   } catch(err) {
     console.error(err.message);
@@ -17,9 +21,9 @@ router.get('/', async (req, res) => {
 });
 
 // @route     POST api/notes
-// @desc      Add notes route
-// @access    Public
-router.post('/', [
+// @desc      Add new note
+// @access    Private
+router.post('/', auth, [
   check('title', 'Title is required')
     .not()
     .isEmpty(),
@@ -35,7 +39,8 @@ router.post('/', [
   try {
     note = new Note({
       title,
-      body
+      body,
+      user: req.user.id
     });
     await note.save();
     res.json(note);
@@ -45,11 +50,10 @@ router.post('/', [
   }
 });
 
-
 // @route     PUT api/notes/:id
 // @desc      Update a note 
-// @access    Public
-router.put('/:id', [
+// @access    Private
+router.put('/:id', auth, [
   check('title', 'Title is required')
     .not()
     .isEmpty(),
@@ -70,6 +74,10 @@ router.put('/:id', [
   try {
     let note = await Note.findById(req.params.id);
     if (!note) return res.status(404).json({ msg: 'Note not found' });
+    // Make sure authorized user owns this note
+    if (note.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'Not authorized' });
+    }
     note = await Note.findByIdAndUpdate(
       req.params.id,
       { $set: noteFields },
@@ -77,18 +85,22 @@ router.put('/:id', [
     );
     res.json(note);
   } catch (err) {
-    console.error(er.message);
+    console.error(err.message);
     res.status(500).send('Server Error');
   }
 }); 
 
 // @route     DELETE api/notes/:id
 // @desc      Delete a note
-// @access    Public
-router.delete('/:id', async (req, res) => {
+// @access    Private
+router.delete('/:id', auth, async (req, res) => {
   try {
     let note = await Note.findById(req.params.id);
     if (!note) return res.status(404).json({ msg: 'Note was not found' });
+    // Make sure authorized user owns this note 
+    if (note.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'Not authorized' });
+    }
     await Note.findByIdAndRemove(req.params.id);
     res.json({ msg: 'Note deleted' });
   } catch (err) {
