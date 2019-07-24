@@ -1,3 +1,24 @@
 .App {
   text-align: center;
 }
+
+a {
+  color: white;
+  text-decoration: none;
+}
+
+.landing {
+  position: relative;
+  height: 100vh;
+}
+
+.landing-inner {
+  width: 100%;
+  margin: auto;
+  display: flex;
+  text-align: center;
+  min-height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
