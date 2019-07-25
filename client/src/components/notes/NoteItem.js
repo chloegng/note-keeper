@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import Moment from 'react-moment'
+import Moment from 'react-moment';
 
 const NoteItem = ({note: {title, body, dateCreated, dateUpdated }}) => {
 
@@ -13,6 +13,10 @@ const NoteItem = ({note: {title, body, dateCreated, dateUpdated }}) => {
             <p>{body}</p>
             <small><strong>Date Created:</strong><Moment format='MM/DD/YYYY'>{dateCreated}</Moment></small>
             { dateUpdated !== dateCreated && <small><strong> Date Last Updated:</strong><Moment format='MM/DD/YYYY'>{dateUpdated}</Moment></small> }
+          </div>
+          <div className="buttons mb-3 ml-2">
+            <button className="btn btn-primary btn-sm mx-1"><i className="fas fa-pencil-alt" /> Edit</button>
+            <button className="btn btn-danger btn-sm mx-1"><i className="fas fa-trash" /> Delete</button>
           </div>
         </div>
     </Fragment>

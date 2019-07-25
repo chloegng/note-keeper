@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { getNotes } from '../../actions/notes';
 import Spinner from '../layout/Spinner';
 import Notes from '../notes/Notes';
+import { Link } from 'react-router-dom';
 
 const Dashboard = ({ getNotes, auth: { user }, notes: { notes, loading } }) => {
   useEffect(() => {
@@ -11,9 +12,13 @@ const Dashboard = ({ getNotes, auth: { user }, notes: { notes, loading } }) => {
   }, []);
   return loading && notes === null ? <Spinner /> : <Fragment>
     <h1 className="large text-primary">Dashboard</h1>
-    <p className="lead">
-      <i className="fas fa-user"></i> Hi {user && user.name}
-    </p>
+    <div className="row">
+      <p className="lead col">
+        <i className="fas fa-user"></i> Hi {user && user.name}
+      </p>
+      <Link to="/add"><button className="btn btn-primary col"><i className="fas fa-plus" /> Add Note</button></Link>
+    </div>
+  
     {notes != null ? (
       <Notes notes={notes} />
     ) : (
