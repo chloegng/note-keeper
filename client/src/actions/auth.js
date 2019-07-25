@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { setAlert } from './alert';
-import { REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL } from './types';
+import { REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from './types';
 
 import setAuthToken from '../utils/setAuthToken';
 
@@ -78,3 +78,8 @@ export const login = ( email, password ) => async dispatch => {
     });
   }
 }; 
+
+// Logout 
+export const logout = () => dispatch => new Promise(function(resolve, reject) {
+  dispatch({ type: LOGOUT });
+}); 
