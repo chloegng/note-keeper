@@ -51,7 +51,9 @@ const AddNote = ({ setAlert, addNote, history }) => {
               required
             />
           </div>
-          <input type="submit" className="btn btn-primary" value="Submit" />
+          <input type="submit" className="btn btn-primary mx-1" value="Submit" />
+          <a className="btn btn-secondary mx-1" href="../dashboard">Go Back</a>
+
         </form>
       </div>
     </Fragment>
