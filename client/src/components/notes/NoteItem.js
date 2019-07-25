@@ -1,12 +1,19 @@
 import React, { Fragment } from 'react';
 import Moment from 'react-moment';
 import { connect } from 'react-redux';
-import { deleteNote } from '../../actions/notes';
+import { Link } from 'react-router-dom';
+import { deleteNote, setCurrent } from '../../actions/notes';
 import PropTypes from 'prop-types';
 
-const NoteItem = ({note: { _id, title, body, dateCreated, dateUpdated }, deleteNote }) => {
+const NoteItem = ({ note, setCurrent, deleteNote, history }) => {
   function onDelete() {
     deleteNote(_id)
+  };
+
+  const { title, body, _id, dateCreated, dateUpdated } = note;
+  
+  function onEdit() {
+    setCurrent(note, history);
   };
 
   return (
@@ -21,7 +28,7 @@ const NoteItem = ({note: { _id, title, body, dateCreated, dateUpdated }, deleteN
             { dateUpdated !== dateCreated && <small><strong> Date Last Updated:</strong><Moment format='MM/DD/YYYY'>{dateUpdated}</Moment></small> }
           </div>
           <div className="buttons mb-3 ml-2">
-            <button className="btn btn-primary btn-sm mx-1"><i className="fas fa-pencil-alt" /> Edit</button>
+            <Link to="/edit" className="btn btn-primary btn-sm mx-1" onClick={() => onEdit()}><i className="fas fa-pencil-alt" /> Edit</Link>
             <button className="btn btn-danger btn-sm mx-1" onClick={() => onDelete()}><i className="fas fa-trash" /> Delete</button>
           </div>
         </div>
@@ -30,7 +37,8 @@ const NoteItem = ({note: { _id, title, body, dateCreated, dateUpdated }, deleteN
 };
 
 NoteItem.propTypes = {
+  note: PropTypes.object.isRequired,
   deleteNote: PropTypes.func.isRequired
 }
 
-export default connect(null, {deleteNote})(NoteItem); 
+export default connect(null, { deleteNote, setCurrent })(NoteItem); 

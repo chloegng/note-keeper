@@ -6,7 +6,7 @@ import Spinner from '../layout/Spinner';
 import Notes from '../notes/Notes';
 import { Link } from 'react-router-dom';
 
-const Dashboard = ({ getNotes, auth: { user }, notes: { notes, loading } }) => {
+const Dashboard = ({ getNotes, auth: { user }, notes: { notes, loading }, history }) => {
   useEffect(() => {
     getNotes();
   }, []);
@@ -17,10 +17,9 @@ const Dashboard = ({ getNotes, auth: { user }, notes: { notes, loading } }) => {
         <i className="fas fa-user"></i> Hi {user && user.name}
       </p>
       <Link to="/add"><button className="btn btn-primary col"><i className="fas fa-plus" /> Add Note</button></Link>
-    </div>
-  
+    </div>  
     {notes !== null ? (
-      <Notes notes={notes} />
+      <Notes notes={notes} history={history} />
     ) : (
       <Fragment>
         You do not have any notes right now.
