@@ -1,4 +1,4 @@
-import { GET_NOTES, NOTES_ERROR, ADD_NOTE } from '../actions/types';
+import { GET_NOTES, NOTES_ERROR, ADD_NOTE, DELETE_NOTE } from '../actions/types';
 
 const initialState = {
   notes: null,
@@ -26,6 +26,11 @@ export default function(state = initialState, action) {
         ...state,
         error: payload,
         loading: false
+      }
+    case DELETE_NOTE:
+      return {
+        ...state,
+        notes: state.notes.filter(message => message._id !== action.payload)
       }
     default:
       return state;

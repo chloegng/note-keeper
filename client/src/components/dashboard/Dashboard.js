@@ -19,7 +19,7 @@ const Dashboard = ({ getNotes, auth: { user }, notes: { notes, loading } }) => {
       <Link to="/add"><button className="btn btn-primary col"><i className="fas fa-plus" /> Add Note</button></Link>
     </div>
   
-    {notes != null ? (
+    {notes !== null ? (
       <Notes notes={notes} />
     ) : (
       <Fragment>

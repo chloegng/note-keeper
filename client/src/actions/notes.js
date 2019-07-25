@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { setAlert } from './alert';
-import { GET_NOTES, NOTES_ERROR, ADD_NOTE } from './types';
+import { GET_NOTES, NOTES_ERROR, ADD_NOTE, DELETE_NOTE } from './types';
 
 // Get user's notes
 export const getNotes = () => async dispatch => {
@@ -46,3 +46,26 @@ export const addNote = (formData, history) => async dispatch => {
     });
   }
 }; 
+
+// delete notes 
+export const deleteNote = (id) => async dispatch => {
+  try {
+    await axios.delete(`/api/notes/${id}`);
+    dispatch({
+      type: DELETE_NOTE,
+      payload: id
+    });
+    dispatch(setAlert('Note deleted', 'success'));
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if(errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    }
+    console.log(err);
+
+    dispatch({
+      type: NOTES_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};

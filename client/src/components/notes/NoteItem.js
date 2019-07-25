@@ -1,7 +1,13 @@
 import React, { Fragment } from 'react';
 import Moment from 'react-moment';
+import { connect } from 'react-redux';
+import { deleteNote } from '../../actions/notes';
+import PropTypes from 'prop-types';
 
-const NoteItem = ({note: {title, body, dateCreated, dateUpdated }}) => {
+const NoteItem = ({note: { _id, title, body, dateCreated, dateUpdated }, deleteNote }) => {
+  function onDelete() {
+    deleteNote(_id)
+  };
 
   return (
     <Fragment>
@@ -16,11 +22,15 @@ const NoteItem = ({note: {title, body, dateCreated, dateUpdated }}) => {
           </div>
           <div className="buttons mb-3 ml-2">
             <button className="btn btn-primary btn-sm mx-1"><i className="fas fa-pencil-alt" /> Edit</button>
-            <button className="btn btn-danger btn-sm mx-1"><i className="fas fa-trash" /> Delete</button>
+            <button className="btn btn-danger btn-sm mx-1" onClick={() => onDelete()}><i className="fas fa-trash" /> Delete</button>
           </div>
         </div>
     </Fragment>
   );
 };
 
-export default NoteItem; 
+NoteItem.propTypes = {
+  deleteNote: PropTypes.func.isRequired
+}
+
+export default connect(null, {deleteNote})(NoteItem); 
