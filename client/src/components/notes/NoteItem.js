@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
+import Moment from 'react-moment'
 
-const NoteItem = ({note: {title, body, _id, dateCreated, dateUpdated }}) => {
+const NoteItem = ({note: {title, body, dateCreated, dateUpdated }}) => {
 
   return (
     <Fragment>
@@ -10,8 +11,8 @@ const NoteItem = ({note: {title, body, _id, dateCreated, dateUpdated }}) => {
           </div>
           <div className="body m-3">
             <p>{body}</p>
-            <small><strong>Date Created:</strong>{dateCreated}</small>
-            { dateUpdated !== dateCreated && <small><strong> Date Last Updated:</strong>{dateUpdated}</small> }
+            <small><strong>Date Created:</strong><Moment format='MM/DD/YYYY'>{dateCreated}</Moment></small>
+            { dateUpdated !== dateCreated && <small><strong> Date Last Updated:</strong><Moment format='MM/DD/YYYY'>{dateUpdated}</Moment></small> }
           </div>
         </div>
     </Fragment>

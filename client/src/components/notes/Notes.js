@@ -6,7 +6,7 @@ const Notes = ({notes}) => {
   return (
     <Fragment>
       {notes.map(note => (
-        <NoteItem note={note} />
+        <NoteItem key={note._id} note={note} />
       ))}
     </Fragment>
   );
