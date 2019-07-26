@@ -10,22 +10,32 @@ const Dashboard = ({ getNotes, auth: { user }, notes: { notes, loading }, histor
   useEffect(() => {
     getNotes();
   }, []);
-  return loading && notes === null ? <Spinner /> : <Fragment>
-    <h1 className="large text-primary">Dashboard</h1>
-    <div className="row">
-      <p className="lead col">
-        <i className="fas fa-user"></i> Hi {user && user.name}
-      </p>
-      <Link to="/add"><button className="btn btn-primary col"><i className="fas fa-plus" /> Add Note</button></Link>
-    </div>  
-    {notes !== null ? (
-      <Notes notes={notes} history={history} />
-    ) : (
-      <Fragment>
-        You do not have any notes right now.
-      </Fragment>
-    )}
-  </Fragment>
+  
+  return (
+    <div className="dashboard">
+      <h1 className="large text-primary pt-4">Dashboard</h1>
+      <div className="header">
+        {loading && notes === null ? <Spinner /> : <Fragment>
+          <div className="row">
+            <p className="lead col">
+              <i className="fas fa-user"></i> Hi {user && user.name}
+            </p>
+            <Link to="/add"><button className="btn btn-primary col"><i className="fas fa-plus" /> Add Note</button></Link>
+          </div>
+          { notes && notes.length > 0 ? (
+            <Notes notes={notes} history={history} /> 
+          ) : (
+            <Fragment>
+              <div className="row m-1">
+                <h5>You do not have any notes at the moment.</h5>
+              </div>
+            </Fragment>
+          )}
+        </Fragment>
+        }
+      </div>
+    </div>
+  )
 }
 
 Dashboard.propTypes = {
