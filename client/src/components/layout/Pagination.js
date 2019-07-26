@@ -12,9 +12,9 @@ const Pagination = ({ notesPerPage, totalNotes, paginate }) => {
       <ul className='pagination justify-content-center'>
         {pageNumbers.map(number => (
           <li key={number} className='page-item'>
-            <a onClick={() => paginate(number)} className='page-link'>
+            <p onClick={() => paginate(number)} className='page-link'>
               {number}
-            </a>
+            </p>
           </li>
         ))}
       </ul>
