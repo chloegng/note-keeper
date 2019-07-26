@@ -16,7 +16,7 @@ const EditNote = ({ current, loading, setAlert, updateNote, history }) => {
       title: loading || !current.title ? '' : current.title,
       body: loading || !current.body ? '' : current.body,
     });
-  }, []);
+  }, [current, loading]);
 
   const { title, body } = formData;
   

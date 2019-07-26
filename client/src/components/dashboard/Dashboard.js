@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 const Dashboard = ({ getNotes, auth: { user }, notes: { notes, loading }, history }) => {
   useEffect(() => {
     getNotes();
-  }, []);
+  }, [getNotes]);
   
   return (
     <div className="dashboard">
